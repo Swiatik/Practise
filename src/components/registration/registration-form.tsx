@@ -1,20 +1,21 @@
 import React from 'react';
 import axios from 'axios';
 import './registration-form.css';
+import { NavLink} from 'react-router-dom';
 
 type RegistrateState = {
   username: string;
   login: string;
-  password: string;
+  password: string;  
 }
 
 export default class RegistrationForm extends React.Component<{}, RegistrateState>{
     state: RegistrateState = {
       username: "",
       login: "",
-      password: ""
+      password: "",      
     };
-        
+  
     onInputChange = (e: React.FormEvent<HTMLInputElement>): void => {        
         const { name, value } = e.currentTarget;     
         e.preventDefault()
@@ -22,6 +23,7 @@ export default class RegistrationForm extends React.Component<{}, RegistrateStat
     };
     
     onSubmit = (e: any): void => {
+      e.preventDefault();
       this.state.username && this.state.login && this.state.password 
         && axios.post(`https://linkstagram-api.ga/create-account`, { 
           username: this.state.username,
@@ -32,7 +34,8 @@ export default class RegistrationForm extends React.Component<{}, RegistrateStat
           console.log(res);
           console.log(res.data);
         })
-    }
+      
+      }  
 
     render() {
       return (
@@ -60,6 +63,11 @@ export default class RegistrationForm extends React.Component<{}, RegistrateStat
           </div>          
           <div>
             <input type="submit" value="Registrate"/>
+            <NavLink to="/login">
+              <button>
+                  Login
+              </button>
+            </NavLink>
           </div>
         </form>
       );

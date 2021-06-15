@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import './login-form.css';
+import { NavLink } from 'react-router-dom';
 
 type LoginState = {  
   login: string;
@@ -14,12 +15,13 @@ export default class LoginForm extends React.Component<{}, LoginState>{
     };
         
     onInputChange = (e: React.FormEvent<HTMLInputElement>): void => {        
-        const { name, value } = e.currentTarget;     
+        const { name, value } = e.currentTarget;
         e.preventDefault()
         this.setState({ [name]: value } as LoginState);        
     };
     
     onSubmit = (e: any): void => {
+      e.preventDefault();
       this.state.login && this.state.password 
         && axios.post(`https://linkstagram-api.ga/login`, {           
           login: this.state.login,
@@ -50,6 +52,11 @@ export default class LoginForm extends React.Component<{}, LoginState>{
           </div>          
           <div>
             <input type="submit" value="Login"/>
+            <NavLink to="/create-account">
+              <button>
+                  Registrate
+              </button>
+            </NavLink>
           </div>
         </form>
       );
