@@ -8,7 +8,10 @@ type LoginState = {
   password: string;
 }
 
-export default class LoginForm extends React.Component<{}, LoginState>{
+type LoginProps = {
+  history: any
+}
+export default class LoginForm extends React.Component<LoginProps, LoginState>{
     state: LoginState = {      
       login: "",
       password: ""
@@ -22,6 +25,7 @@ export default class LoginForm extends React.Component<{}, LoginState>{
     
     onSubmit = (e: any): void => {
       e.preventDefault();
+      // alert("login: " + this.state.login + "\npassword: " + this.state.password );
       this.state.login && this.state.password 
         && axios.post(`https://linkstagram-api.ga/login`, {           
           login: this.state.login,
@@ -30,6 +34,9 @@ export default class LoginForm extends React.Component<{}, LoginState>{
         .then(res => {
           console.log(res);
           console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);          
         })
     }
 
@@ -53,7 +60,7 @@ export default class LoginForm extends React.Component<{}, LoginState>{
           <div>
             <input type="submit" value="Login"/>
             <NavLink to="/create-account">
-              <button>
+              <button >
                   Registrate
               </button>
             </NavLink>
