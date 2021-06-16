@@ -2,19 +2,25 @@ import React from 'react';
 import axios from 'axios';
 import './login-form.css';
 import { NavLink } from 'react-router-dom';
+import {dispatchUser} from '../../redux/profiles-reducer'
+import { connect } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
 
 type LoginState = {  
   login: string;
   password: string;
+  profileInfo: any;
 }
 
 type LoginProps = {
-  history: any
+  history: any,
+  dispatchUser: any
 }
-export default class LoginForm extends React.Component<LoginProps, LoginState>{
+class LoginForm extends React.Component<LoginProps, LoginState>{
     state: LoginState = {      
       login: "",
-      password: ""
+      password: "",
+      profileInfo: null
     };
         
     onInputChange = (e: React.FormEvent<HTMLInputElement>): void => {        
@@ -25,19 +31,30 @@ export default class LoginForm extends React.Component<LoginProps, LoginState>{
     
     onSubmit = (e: any): void => {
       e.preventDefault();
-      // alert("login: " + this.state.login + "\npassword: " + this.state.password );
+      
       this.state.login && this.state.password 
         && axios.post(`https://linkstagram-api.ga/login`, {           
           login: this.state.login,
           password: this.state.password
         })
         .then(res => {
-          console.log(res);
+          
+        })
+        .catch(err => {
+          console.log(err);          
+        })
+                  
+        axios.get(`https://linkstagram-api.ga/profiles/${this.state.login}`)        
+        .then(res => {                    
+          debugger;
+          this.props.dispatchUser(res.data);
+          this.props.history.push(`/profiles/${this.state.login}`)
           console.log(res.data);
         })
         .catch(err => {
           console.log(err);          
         })
+        
     }
 
     render() {
@@ -58,14 +75,20 @@ export default class LoginForm extends React.Component<LoginProps, LoginState>{
                    onChange={this.onInputChange}/>
           </div>          
           <div>
-            <input type="submit" value="Login"/>
+            {/* <NavLink onClick={this.onSubmit} to={{pathname: `/profiles/${this.state.login}`}}> */}
+              <input type="submit" value="Login"/>
+            {/* </NavLink> */}
             <NavLink to="/create-account">
-              <button >
-                  Registrate
-              </button>
+              <button>
+                Registrate
+              </button>                  
             </NavLink>
           </div>
         </form>
       );
   }
 }
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ dispatchUser }, dispatch)
+    
+export default connect(null, mapDispatchToProps)(LoginForm);

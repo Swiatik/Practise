@@ -1,7 +1,10 @@
+import { bindActionCreators } from '@reduxjs/toolkit';
 import React, { FunctionComponent } from 'react';
 import './profile.css'
+import {setUsername} from '../../redux/profiles-reducer'
+import { connect } from 'react-redux';
 
-type ProfileProps = {  
+interface ProfileProps {  
   username: string,
   description: string,
   first_name: string,
@@ -25,8 +28,7 @@ const Profile: FunctionComponent<ProfileProps> = (props: ProfileProps) =>
     </div>
     
 
-Profile.defaultProps =
-{
+    Profile.defaultProps ={
     description: "None",    
     first_name: "None",    
     job_title: "None",
@@ -34,4 +36,12 @@ Profile.defaultProps =
     profile_photo_url: "None"
 }
 
-export default Profile;
+const mapStateToProps = (state: any) => {
+    return{
+    profile: state.profile
+    }
+}
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({setUsername} , dispatch)
+
+ export default connect(mapStateToProps, mapDispatchToProps)(Profile);
