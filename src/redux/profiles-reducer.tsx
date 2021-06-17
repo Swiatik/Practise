@@ -1,43 +1,19 @@
-const SET_USERNAME = 'SET-USERNAME';
+const SET_PROFILES = 'SET-PROFILES';
 
-interface IProfile {  
-    username: string,
-    description: string,
-    first_name: string,
-    followers: number,
-    following: number,
-    job_title: string,
-    last_name: string,
-    profile_photo_url: string
+const initialState = {
+    profiles: []
 }
 
-interface IProfileState{
-    profile: IProfile
-}
-const initialState: IProfileState = {
-    profile:{
-        username: "None",
-        description: "None",    
-        first_name: "None",
-        followers: 0,
-        following: 0,
-        job_title: "None",
-        last_name: "None",
-        profile_photo_url: "None"
-    }
-}
-
-export function profileReducer( state = initialState, action: any) {
+const profilesReducer = (state = initialState, action: any) => {
     switch(action.type){
-        case SET_USERNAME:
-            state.profile = action.user;
+        case SET_PROFILES: {
+            return { ...state, profiles: [ ...state.profiles, ...action.profiles ]}
+        }
+        default:
             return state;
     }
-    return state;
 }
 
-export const setUsername = (user: any) => 
-    ({type: SET_USERNAME, user: user})
+export const setProfilesCreator = (profiles: any) => ({type: SET_PROFILES, profiles})
 
-export const dispatchUser = (user: any) => (dispatch: any) => dispatch(setUsername(user))
-    
+export default profilesReducer;

@@ -2,9 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import './login-form.css';
 import { NavLink } from 'react-router-dom';
-import {dispatchUser} from '../../redux/profiles-reducer'
 import { connect } from 'react-redux';
-import { bindActionCreators } from '@reduxjs/toolkit';
+import { setAccountCreator } from '../../redux/account-reducer';
 
 type LoginState = {  
   login: string;
@@ -13,9 +12,10 @@ type LoginState = {
 }
 
 type LoginProps = {
+  setAccount: any,
   history: any,
-  dispatchUser: any
 }
+
 class LoginForm extends React.Component<LoginProps, LoginState>{
     state: LoginState = {      
       login: "",
@@ -32,23 +32,22 @@ class LoginForm extends React.Component<LoginProps, LoginState>{
     onSubmit = (e: any): void => {
       e.preventDefault();
       
-      this.state.login && this.state.password 
-        && axios.post(`https://linkstagram-api.ga/login`, {           
-          login: this.state.login,
-          password: this.state.password
-        })
-        .then(res => {
+      // this.state.login && this.state.password 
+      //   && axios.post(`https://linkstagram-api.ga/login`, {           
+      //     login: this.state.login,
+      //     password: this.state.password
+      //   })
+      //   .then(res => {
           
-        })
-        .catch(err => {
-          console.log(err);          
-        })
+      //   })
+      //   .catch(err => {
+      //     console.log(err);          
+      //   })
                   
         axios.get(`https://linkstagram-api.ga/profiles/${this.state.login}`)        
-        .then(res => {                    
-          debugger;
-          this.props.dispatchUser(res.data);
-          this.props.history.push(`/profiles/${this.state.login}`)
+        .then(res => {                   
+          this.props.setAccount(res.data);
+          this.props.history.push(`/profiles/${res.data.username}`)
           console.log(res.data);
         })
         .catch(err => {
@@ -88,7 +87,13 @@ class LoginForm extends React.Component<LoginProps, LoginState>{
       );
   }
 }
-
-const mapDispatchToProps = (dispatch: any) => bindActionCreators({ dispatchUser }, dispatch)
     
+let mapDispatchToProps = (dispatch: any) => {
+  return {        
+      setAccount: (user: any) => {
+          dispatch(setAccountCreator(user));
+      }
+  }
+}
+
 export default connect(null, mapDispatchToProps)(LoginForm);

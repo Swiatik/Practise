@@ -1,0 +1,13 @@
+.header {
+    grid-area: h;
+    background-color: green;
+    display: inline-block;    
+}
+
+.header img {
+    width: 20px;
+}
+
+.logout {
+    float: right;
+ }

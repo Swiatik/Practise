@@ -1,48 +1,68 @@
 import axios from "axios";
 import React from "react";
+import { connect } from "react-redux";
+import userPhoto from '../../assets/user.png'
+import { setProfilesCreator } from "../../redux/profiles-reducer";
+import Header from "../account/header/header";
+import Menu from "../account/menu/menu";
 
-interface ProfileProps {  
-    username: string,
-    description: string,
-    first_name: string,
-    followers: number,
-    following: number,
-    job_title: string,
-    last_name: string,
-    profile_photo_url: string
+import styles from './profiles.module.css';
+
+interface ProfilesProps{
+    setProfiles: any,
+    profiles: any
 }
 
-type ProfilesState = {
-    list: ProfileProps[]
-}
-function a() : ProfileProps[]{
-    axios.get(`https://linkstagram-api.ga/profiles`)
-        .then(res => {                    
-          return res.data;          
-        })
-        .catch(err => {
-          console.log(err);          
-        })
-        return []
-        debugger;
-}
-
-export default class Profiles extends React.Component<{}, ProfilesState>{    
-    state: ProfilesState = {
-      list: a()
-    };
-
-    render(){
-        return(
-        <ul>
-        {this.state.list.map(item => (
-          <li key={item.description}>
-            <div>{item.first_name}</div>
-            <div>{item.followers}</div>
-            <div>{item.following}</div>
-            <div>{item.job_title}</div>
-          </li>
-        ))}
-      </ul>)
+class Profiles extends React.Component<ProfilesProps>{    
+    componentDidMount(){
+      axios.get(`https://linkstagram-api.ga/profiles`)
+      .then(res => {
+          this.props.setProfiles(res.data);
+      });
     }
+    render() {
+      return (
+      <div className={styles.app_wrapper}>
+        <Header/>
+        <Menu/>
+        <div className={styles.app_wrapper_content}>
+        {this.props.profiles.map((p: any) => (                 
+                 <div>
+                  <span>
+                      <div>
+                          <img src={p.profile_photo_url != null ? p.profile_photo_url : userPhoto} 
+                               alt="user.png"  className={styles.userPhoto}/>
+                      </div>                     
+                  </span>
+                      <span>
+                      <span>
+                          <div>{p.first_name} {p.last_name}</div>
+                          <div>Description: {p.description}</div>
+                          <div>{p.followers} followers</div>
+                          <div>{p.following} following</div>
+                          <div>Job: {p.job_title}</div>
+                      </span>                      
+                  </span>
+                  </div>
+        ))}
+        </div>
+    
+      </div>)
+  }
 }
+
+let mapStateToProps = (state: any) => {
+  return {      
+      profiles: state.profiles.profiles
+  }
+}
+
+let mapDispatchToProps = (dispatch: any) => {
+  return {        
+      setProfiles: (profiles: any) => {
+          dispatch(setProfilesCreator(profiles));
+      }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profiles);
