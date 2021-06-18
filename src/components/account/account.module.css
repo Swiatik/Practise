@@ -22,3 +22,8 @@
     grid-area: c;
     background-color: cornflowerblue;    
 }
+
+.userPhoto {
+  width: 300px;
+ height: 200px;
+}

@@ -3,7 +3,6 @@ import axios from 'axios';
 import './registration-form.css';
 import { NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setAccountCreator } from '../../redux/account-reducer';
 
 type RegistrateState = {
   username: string;
@@ -11,10 +10,10 @@ type RegistrateState = {
   password: string;  
 }
 
-type RegistrateProps = {
-  setAccount: any,
-  history: any,
-}
+// type RegistrateProps = {
+//   setAccount: any,
+//   history: any,
+// }
 
 class RegistrationForm extends React.Component<{}, RegistrateState>{
     state: RegistrateState = {
@@ -81,12 +80,12 @@ class RegistrationForm extends React.Component<{}, RegistrateState>{
   }
 }
 
-let mapDispatchToProps = (dispatch: any) => {
-  return {        
-      setAccount: (user: any) => {
-          dispatch(setAccountCreator(user));
-      }
-  }
-}
+// let mapDispatchToProps = (dispatch: any) => {
+//   return {        
+//       setAccount: (user: any) => {
+//           dispatch(setAccountCreator(user));
+//       }
+//   }
+// }
 
-export default connect(null, mapDispatchToProps)(RegistrationForm);
+export default connect(null, null)(RegistrationForm);

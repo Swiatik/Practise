@@ -13,6 +13,7 @@ export default class App extends React.Component {
           <Switch>
             <Route path="/login" component={LoginForm} exact/>            
             <Route path="/create-account" component={RegistrationForm}/>
+            <Route path="/account" component={Account}/>
             <Route path="/profiles/:username" component={Account}/>
             <Route path="/profiles" component={Profiles}/>
             <Route path="/posts" component={Posts}/>

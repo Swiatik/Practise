@@ -1,23 +1,19 @@
-import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import userPhoto from '../../assets/user.png'
-import { setPostsCreator } from "../../redux/posts-reducer";
-import Header from "../account/header/header";
-import Menu from "../account/menu/menu";
+import { getPosts } from "../../redux/posts-reducer";
+import Header from "../header/header";
+import Menu from "../menu/menu";
 import styles from './posts.module.css';
 
 interface PostsProps{
-    setPosts: any,
+    getPosts: any,
     posts: any
 }
 
 class Posts extends React.Component<PostsProps>{    
-    componentDidMount(){
-      axios.get(`https://linkstagram-api.ga/posts`)
-      .then(res => {
-          this.props.setPosts(res.data);
-      });
+    componentDidMount(){      
+       this.props.getPosts();      
     }
     render() {
       return (
@@ -29,7 +25,7 @@ class Posts extends React.Component<PostsProps>{
                  <div>
                   <span>
                       <div>
-                          <img src={p.photos[1] != null ? p.photos[1] : userPhoto} 
+                          <img src={p.photos[1] != null ? p.photos[1].url : userPhoto} 
                                alt="post.png"  className={styles.userPhoto}/>
                       </div>                     
                   </span>
@@ -56,12 +52,4 @@ let mapStateToProps = (state: any) => {
   }
 }
 
-let mapDispatchToProps = (dispatch: any) => {
-  return {        
-      setPosts: (posts: any) => {
-          dispatch(setPostsCreator(posts));
-      }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps, {getPosts})(Posts);

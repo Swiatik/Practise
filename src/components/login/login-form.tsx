@@ -1,10 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import './login-form.css';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setAccountCreator } from '../../redux/account-reducer';
-
+import {login} from '../../redux/auth-reducer'
 type LoginState = {  
   login: string;
   password: string;
@@ -14,6 +12,7 @@ type LoginState = {
 type LoginProps = {
   setAccount: any,
   history: any,
+  login: any
 }
 
 class LoginForm extends React.Component<LoginProps, LoginState>{
@@ -31,29 +30,8 @@ class LoginForm extends React.Component<LoginProps, LoginState>{
     
     onSubmit = (e: any): void => {
       e.preventDefault();
-      
-      // this.state.login && this.state.password 
-      //   && axios.post(`https://linkstagram-api.ga/login`, {           
-      //     login: this.state.login,
-      //     password: this.state.password
-      //   })
-      //   .then(res => {
-          
-      //   })
-      //   .catch(err => {
-      //     console.log(err);          
-      //   })
-                  
-        axios.get(`https://linkstagram-api.ga/profiles/${this.state.login}`)        
-        .then(res => {                   
-          this.props.setAccount(res.data);
-          this.props.history.push(`/profiles/${res.data.username}`)
-          console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err);          
-        })
-        
+      this.props.login(this.state.login, this.state.password);
+      this.props.history.push('/account');
     }
 
     render() {
@@ -73,10 +51,8 @@ class LoginForm extends React.Component<LoginProps, LoginState>{
                    value={this.state.password}
                    onChange={this.onInputChange}/>
           </div>          
-          <div>
-            {/* <NavLink onClick={this.onSubmit} to={{pathname: `/profiles/${this.state.login}`}}> */}
-              <input type="submit" value="Login"/>
-            {/* </NavLink> */}
+          <div>            
+              <input type="submit" value="Login"/>            
             <NavLink to="/create-account">
               <button>
                 Registrate
@@ -88,12 +64,47 @@ class LoginForm extends React.Component<LoginProps, LoginState>{
   }
 }
     
-let mapDispatchToProps = (dispatch: any) => {
-  return {        
-      setAccount: (user: any) => {
-          dispatch(setAccountCreator(user));
-      }
-  }
-}
+export default connect(null, {login})(LoginForm);
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+// import './login-form.css';
+// import { NavLink } from 'react-router-dom';
+// import { connect } from 'react-redux';
+// import {login} from '../../redux/auth-reducer'
+
+
+// const LoginForm = (props: any) => {
+//   return (
+//       <form onSubmit={props.handleSubmit}>
+//           <div>
+//               <Field placeholder={"Login"} name={"login"}                     
+//                     component={"input"}/>
+//           </div>
+//           <div>
+//               <Field placeholder={"Password"} name={"password"} type={"password"}                     
+//                      component={"input"}/>
+//           </div>          
+//           <div>
+//               <button>Login</button>
+//               <NavLink to="/create-account">
+//                 <button>Registrate</button>
+//               </NavLink>
+//           </div>
+//       </form>
+//   )
+// }
+
+// const LoginReduxForm =  reduxForm({form: 'login'})(LoginForm)
+
+// const Login = (props: any) => {
+//     const onSubmit = (formData: any) => {
+//         props.login(formData.login, formData.password);
+//     }    
+
+//     return <div>
+//         <h1>Login</h1>
+//         <LoginReduxForm onSubmit={onSubmit} />
+//     </div>
+// }
+
+// export default connect(null, {login} )(Login);
+

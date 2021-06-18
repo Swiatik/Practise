@@ -1,9 +1,11 @@
 import { FunctionComponent } from 'react';
 import styles from './account.module.css'
 import { connect } from 'react-redux';
-import Menu from './menu/menu';
-import Header from './header/header';
-
+import Header from '../header/header';
+import Menu from '../menu/menu';
+import { withRouter } from 'react-router';
+import { getUserProfile } from '../../redux/profiles-reducer'
+import userPhoto from '../../assets/user.png'
 interface ProfileProps {
     user: any
 }
@@ -13,7 +15,9 @@ const Account: FunctionComponent<ProfileProps> = (props: ProfileProps) =>
         <Header />
         <Menu />
         <div className={styles.app_wrapper_content}>
-            <h3>Profile photo url: {props.user.profile_photo_url}</h3>
+            <img src={props.user.profile_photo_url != null ? 
+                        props.user.profile_photo_url : userPhoto} 
+                 alt="user.png"  className={styles.userPhoto}/>
             <h3>Username: {props.user.username}</h3>
             <h3>Description: {props.user.description}</h3>
             <h3>First name: {props.user.first_name}</h3>
@@ -25,11 +29,22 @@ const Account: FunctionComponent<ProfileProps> = (props: ProfileProps) =>
     </div>
 
 
+let AccountContainer = (props: any) =>{    
+    if(props.match.params.username){
+        props.getUserProfile(props.match.params.username);
+        return <Account user={props.user} />
+    }
+    else 
+        return <Account user={props.auth} />
+}
+
+let ACRoute = withRouter(AccountContainer)
 
 let mapStateToProps = (state: any) => {
     return {
-        user: state.account.user
+        auth: state.profiles.auth,
+        user: state.profiles.user,        
     }
 }
 
-export default connect(mapStateToProps, null)(Account);
+export default connect(mapStateToProps, {getUserProfile})(ACRoute);

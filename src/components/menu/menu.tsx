@@ -1,11 +1,11 @@
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import styles from './menu.module.css'
 
-const Menu = (props: any) => {
+const Menu = () => {
     return (
         <nav className={styles.nav}>
             <div className={styles.item}>
-                <NavLink to={`/profiles/:username`}> Profile</NavLink>
+                <NavLink to={`/account`}> Profile</NavLink>
             </div>
             <div className={styles.item}>
                 <NavLink to="/profiles/:username/posts">My posts</NavLink>
