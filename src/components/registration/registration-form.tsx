@@ -37,8 +37,8 @@ class RegistrationForm extends React.Component<{}, RegistrateState>{
           password: this.state.password
         })
         .then(res => {
-          console.log(res);
-          console.log(res.data);
+          // console.log(res);
+          // console.log(res.data);
         })
       
       }  

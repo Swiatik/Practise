@@ -21,11 +21,23 @@ export const profileAPI = {
     getProfiles(){
         return instance.get('profiles').then(res => res.data);
     },
-    getPosts(){
-        return instance.get('posts').then(res => res);
-    },
     getUserProfile(username: string){
         return instance.get(`profiles/${username}`).then(res => res.data);
+    },
+}
+
+export const postAPI = {
+    getPosts(){
+        return instance.get('posts').then(res => res.data);
+    },
+    getUserPosts(username: string){
+        return instance.get(`profiles/${username}/posts`).then(res => res.data);
+    },
+    getPost(id: string){
+        return instance.get(`posts/${id}`).then(res => res.data);
+    },
+    getComments(id: string){
+        return instance.get(`posts/${id}/comments`).then(res => res.data);
     }
 
 }
