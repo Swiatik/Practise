@@ -1,4 +1,5 @@
-import { postAPI, profileAPI } from "../api/api";
+import profileAPI from "../api/profile-api";
+import postAPI from "../api/post-api";
 import { setPosts } from "./posts-reducer";
 
 const SET_PROFILES = 'SET-PROFILES';;

@@ -6,11 +6,10 @@ import Posts from "./posts";
 
 
 type PathParamsType = {
-    username: string,
-    location: any
+    location: any,
 }
 
-type PropsType = RouteComponentProps<PathParamsType> & {
+type PropsType = RouteComponentProps<PathParamsType> & {    
     getPosts: any,
     posts: any,
     username: any
@@ -30,8 +29,8 @@ class PostsContainer extends React.Component<PropsType>{
 
 let mapStateToProps = (state: any) => {
     return {
-        posts: state.posts.posts
+        posts: state.posts.posts,
     }
 }
 
-export default connect(mapStateToProps, {getPosts})(withRouter(PostsContainer));
+export default connect(mapStateToProps, {getPosts })(withRouter(PostsContainer));

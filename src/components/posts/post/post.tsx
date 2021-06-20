@@ -1,29 +1,77 @@
+import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import postPhoto from '../../../assets/post.png'
 import styles from './post.module.css'
+import { like, unlike, deletePost } from '../../../redux/posts-reducer'
 
-const Post = (props: any) => {
-    // console.log(props);
-    // debugger;
-    return (
-        <div>
-            <div>
-                <NavLink to={`/posts/${props.post.id}/comments`}>
-                    <img src={props.post.photos[1] != null ? props.post.photos[1].url : postPhoto}
-                        alt="post.png" className={styles.userPhoto} />
-                </NavLink>
-            </div>
-            <span>
-                <span>
-                    <div>{props.post.username}</div>
-                    <div>Descripropstion: {props.post.descripropstion}</div>
-                    <div>{props.post.likes_count} likes</div>
-                    <div>Created: {props.post.created_at}</div>
-                    <div>{props.post.is_liked !== false ? "Liked" : "Like"}</div>
-                </span>
-            </span>
-        </div>
-    )
+type PropsType = {
+    like: any,
+    unlike: any,
+    deletePost: any,
+    post: any,
+    isDeleting: boolean
 }
 
-export default Post;
+type StateType = {
+    isLiked: boolean,
+    likesCount: number,    
+}
+
+class Post extends React.Component<PropsType, StateType>{
+    onLike = () => {
+        this.props.like(this.props.post.id);
+    }
+
+    onUnlike = () => {
+        this.props.unlike(this.props.post.id);
+    }
+
+    onDelete = () => {
+        this.props.deletePost(this.props.post.id);
+    }
+
+    render() {
+        return (
+            <div className={styles.post}>
+                <div>
+                    <div>
+                        <NavLink to={`/posts/${this.props.post.id}/comments`}>
+                            <img src={this.props.post.photos[1] != null ? this.props.post.photos[1].url : postPhoto}
+                                alt="post.png" className={styles.userPhoto} />
+                        </NavLink>
+                    </div>
+                    <span>
+                        <span>
+                            <div>{this.props.post.username}</div>
+                            <div>Description: {this.props.post.description}</div>
+                            <div>
+                                <div>{this.props.post.is_liked ?
+                                    <button onClick={this.onUnlike}>
+                                        Unlike
+                                    </button> :
+                                    <button onClick={this.onLike}>
+                                        Like
+                                    </button>}
+                                </div>
+                                <div>
+                                    {this.props.post.likes_count} likes
+                                </div>
+                            </div>
+                            <div>Created: {this.props.post.created_at}</div>
+                        </span>
+                    </span>
+                </div>               
+                <div>
+                    {this.props.isDeleting && 
+                    <button onClick={this.onDelete}>
+                        Delete
+                    </button>}
+                </div>
+            </div>
+        )
+    }
+}
+
+
+export default connect(null, { like, unlike, deletePost })(Post);

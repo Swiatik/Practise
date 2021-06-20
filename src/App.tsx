@@ -7,6 +7,7 @@ import Profiles from './components/profiles/profiles'
 import PostsContainer from './components/posts/postsContainer'
 import withLayout from './hoc/withLayout'
 import PostsInfoContainer from './components/posts/postInfo/postInfo'
+import MyPosts from './components/posts/my-posts/my-posts'
 
 export default class App extends React.Component {
     render() {
@@ -17,9 +18,10 @@ export default class App extends React.Component {
             <Route path="/create-account" component={RegistrationForm}/>
             <Route path="/account" component={AccountContainer}/>
             <Route path="/posts/:post_id/comments" component={PostsInfoContainer}/>
+            <Route path="/posts" component={withLayout(PostsContainer)}/>
+            <Route path="/profiles/:username/posts" component={withLayout(MyPosts)}/>
             <Route path="/profiles/:username" component={AccountContainer}/>
             <Route path="/profiles" component={Profiles}/>
-            <Route path="/posts" component={withLayout(PostsContainer)}/>
           </Switch>
       </BrowserRouter>
       );
