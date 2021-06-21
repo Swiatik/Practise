@@ -3,11 +3,13 @@ import Posts from "../posts";
 import { getUserPosts } from '../../../redux/posts-reducer'
 import React from "react";
 import AddPost from './add-post'
+import { PostType } from "../../../redux/types/types";
+import { AppStateType } from "../../../redux/store";
 
 type PropsType = {
-    getUserPosts: any,
-    posts: any,
-    auth: any
+    getUserPosts: (username: string) => void
+    posts: Array<PostType>
+    auth: string
 }
 
 class MyPosts extends React.Component<PropsType>{
@@ -25,7 +27,7 @@ class MyPosts extends React.Component<PropsType>{
     }
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         posts: state.posts.posts,
         auth: state.auth.auth.username

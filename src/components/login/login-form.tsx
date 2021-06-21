@@ -3,23 +3,21 @@ import './login-form.css';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {login} from '../../redux/auth-reducer'
+
 type LoginState = {  
-  login: string;
-  password: string;
-  profileInfo: any;
+  login: string
+  password: string
 }
 
 type LoginProps = {
-  setAccount: any,
-  history: any,
-  login: any
+  history: any
+  login: (login: string, password: string) => void
 }
 
 class LoginForm extends React.Component<LoginProps, LoginState>{
     state: LoginState = {      
       login: "",
-      password: "",
-      profileInfo: null
+      password: ""
     };
         
     onInputChange = (e: React.FormEvent<HTMLInputElement>): void => {        

@@ -5,11 +5,13 @@ import { NavLink } from "react-router-dom";
 import userPhoto from '../../assets/user.png'
 import withLayout from "../../hoc/withLayout";
 import { getProfiles } from "../../redux/profiles-reducer";
+import { AppStateType } from "../../redux/store";
+import { ProfileType } from "../../redux/types/types";
 import styles from './profiles.module.css';
 
 interface ProfilesProps {
-  getProfiles: any,
-  profiles: any
+  getProfiles: () => void
+  profiles: Array<ProfileType>
 }
 
 class Profiles extends React.Component<ProfilesProps>{
@@ -20,7 +22,7 @@ class Profiles extends React.Component<ProfilesProps>{
     return (
       <div className={styles.app_wrapper}>
         <div className={styles.app_wrapper_content}>
-          {this.props.profiles.map((p: any) => (
+          {this.props.profiles.map((p: ProfileType) => (
             <div key={p.username}>
               <span>
                 <div>
@@ -48,7 +50,7 @@ class Profiles extends React.Component<ProfilesProps>{
   }
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
   return {
     profiles: state.profiles.profiles
   }

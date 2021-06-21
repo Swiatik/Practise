@@ -9,7 +9,7 @@ const authAPI = {
     },
     registrate(username: string, login: string, password: string) {
         return instance.post('create-account', { username, login, password });
-    }
+    },
 
 }
 

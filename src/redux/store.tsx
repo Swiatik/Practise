@@ -5,13 +5,16 @@ import postsReducer from './posts-reducer';
 import authReducer from './auth-reducer';
 import thunkMiddleware from "redux-thunk";
 
-let reducers = combineReducers({
+let Reducers = combineReducers({
   profiles: profilesReducer,
   posts: postsReducer,
   auth: authReducer,
   // form: formReducer 
 });
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+type ReducersType = typeof Reducers;
+export type AppStateType = ReturnType<ReducersType>;
+
+let store = createStore(Reducers, applyMiddleware(thunkMiddleware));
 
 export default store;

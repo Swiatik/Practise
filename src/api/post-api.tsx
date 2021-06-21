@@ -1,8 +1,10 @@
 import { instance } from "./api";
-
+let photoID = "uppy-ava/jpg-1e-image/jpeg-21388-1624290818738";
 export const postAPI = {
     createPost(description: string, photo: any) {
-        return instance.post('posts', { description, photo });
+        // return instance.post('posts', { description, photo });
+        debugger;
+        return instance.get('/s3/params', { params: { id: photoID } });
     },
     getPosts() {
         return instance.get('posts').then(res => res.data);
@@ -10,22 +12,22 @@ export const postAPI = {
     getUserPosts(username: string) {
         return instance.get(`profiles/${username}/posts`).then(res => res.data);
     },
-    getPost(id: string) {
+    getPost(id: number) {
         return instance.get(`posts/${id}`).then(res => res.data);
     },
-    deletePost(id: string) {
+    deletePost(id: number) {
         return instance.delete(`posts/${id}`);
     },
-    getComments(id: string) {
+    getComments(id: number) {
         return instance.get(`posts/${id}/comments`).then(res => res.data);
     },
-    addComment(id: string, message: string) {
+    addComment(id: number, message: string) {
         return instance.post(`posts/${id}/comments`, { message });
     },
-    like(id: string) {
+    like(id: number) {
         return instance.post(`posts/${id}/like`);
     },
-    unlike(id: string) {
+    unlike(id: number) {
         return instance.delete(`posts/${id}/like`);
     }
 }

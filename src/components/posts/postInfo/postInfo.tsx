@@ -6,8 +6,17 @@ import Comments from "../../comments/comment";
 import Post from "../post/post";
 import {getComments} from '../../../redux/posts-reducer'
 import { compose } from "@reduxjs/toolkit";
+import { AppStateType } from "../../../redux/store";
+import { CommentType, PostType } from "../../../redux/types/types";
 
-const PostInfo = (props: any)=>{
+type PostInfoPropsType = {
+    post: PostType
+    comments: Array<CommentType>
+    isDeleting?: boolean
+    post_id?: number
+}
+
+const PostInfo = (props: PostInfoPropsType)=>{
 return (
     <div>
         <Post post={props.post} isDeleting={false}/>
@@ -16,14 +25,14 @@ return (
 )
 }
 type PathParamsType = {
-    post_id: string,
+    post_id: string
 }
 
 type PropsType = RouteComponentProps<PathParamsType> & {    
-    getPost: any,
-    getComments: any,
-    post: any,
-    comments: any,    
+    getPost: any
+    getComments: any
+    post: any
+    comments: any 
 }
 
 
@@ -37,7 +46,7 @@ class PostsInfoContainer extends React.Component<PropsType>{
     }    
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         post: state.posts.post,
         comments: state.posts.comments

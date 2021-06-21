@@ -2,9 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { deleteToken } from '../../api/api';
+import { AppStateType } from '../../redux/store';
 import styles from './header.module.css';
 
-const Header = (props: any) => {
+type PropsType = {
+    username?: string
+}
+
+const Header = (props: PropsType) => {
     return <span className={styles.header}>
             <NavLink onClick={ () => deleteToken()} to='/login' className={styles.logout}>
                 <h3>Log out</h3>
@@ -14,7 +19,7 @@ const Header = (props: any) => {
     </span>
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         username: state.auth.auth.username
     }

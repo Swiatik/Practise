@@ -1,37 +1,23 @@
+import { ThunkAction } from "@reduxjs/toolkit";
 import { setToken } from "../api/api";
-import authAPI from  "../api/auth-api"
-;
+import authAPI from "../api/auth-api"
+import { AppStateType } from "./store";
+import { AccountType } from "./types/types";
+
 const SET_PROFILE_DATA = 'SET-PROFILE-DATA'
 
 let initialState = {
-    auth: {
-        description: null,
-        first_name: null,
-        followers: 0,
-        following: 0,
-        job_title: null,
-        last_name: null,
-        profile_photo_url: null,
-        username: null
-    }
-
+    auth: {} as AccountType
 };
 
-const authReducer = (state = initialState, action: any) => {
+type initialStateType = typeof initialState;
+
+const authReducer = (state = initialState, action: setProfileDataActionType): initialStateType => {
     switch (action.type) {
         case SET_PROFILE_DATA: {
             return {
                 ...state,
-                auth: {
-                    description: action.user.description,
-                    first_name: action.user.first_name,
-                    followers: action.user.followers,
-                    following: action.user.following,
-                    job_title: action.user.job_title,
-                    last_name: action.user.last_name,
-                    profile_photo_url: action.user.profile_photo_url,
-                    username: action.user.username
-                }
+                auth: action.user
             }
         }
         default:
@@ -39,25 +25,50 @@ const authReducer = (state = initialState, action: any) => {
     }
 }
 
-export const setProfileData = (user: any) => ({ type: SET_PROFILE_DATA, user });
-
-export const login = (login: string, password: string) => (dispatch: any) => {
-    authAPI.login(login, password)
-        .then(res => {
-            setToken(res.headers.authorization);
-            authAPI.me().then(res => {               
-                dispatch(setProfileData(res.data));
-            });
-        });
+export type setProfileDataActionType = {
+    type: typeof SET_PROFILE_DATA
+    user: AccountType
 }
 
-export const registrate = (username: string, login: string, password: string) => (dispatch: any) => {
-    authAPI.registrate(username, login, password)
-        .then(res => {
-            setToken(res.headers.authorization);            
-            authAPI.me().then(res => {                
-                dispatch(setProfileData(res.data));
+export const setProfileData = (user: AccountType): setProfileDataActionType =>
+    ({ type: SET_PROFILE_DATA, user });
+
+
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, setProfileDataActionType>
+
+export const login = (login: string, password: string): ThunkType => {
+    return async (dispatch) => {
+        await authAPI.login(login, password)
+            .then(res => {
+                setToken(res.headers.authorization);
+                authAPI.me().then(res => {
+                    dispatch(setProfileData(res.data));
+                    // authAPI.getPhotoKey().then(res => {
+                    //     console.log(res);
+                    // });
+                });
             });
-        });
+    }
 }
+
+export const registrate = (username: string, login: string, password: string): ThunkType => {
+    return async (dispatch) => {
+        await authAPI.registrate(username, login, password)
+            .then(res => {
+                setToken(res.headers.authorization);
+                authAPI.me().then(res => {
+                    dispatch(setProfileData(res.data));
+                });
+            });
+    }
+}
+
+export const me = (): ThunkType => {
+    return async (dispatch) => {
+        authAPI.me().then(res => {
+            dispatch(setProfileData(res.data));
+        });
+    }
+}
+
 export default authReducer;

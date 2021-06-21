@@ -1,18 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createPost } from "../../../redux/posts-reducer";
+import styles from './add-post.module.css'
 
 type PropsType = {
     createPost: any,
 }
 
 type DescriptionState = {  
-    description: string
+    description: string,
+    photo: any
 }
 
 class AddPost extends React.Component<PropsType, DescriptionState>{
     state = {
-        description: ""
+        description: "",
+        photo: null
     }
 
     onInputChange = (e: any) => {                
@@ -20,8 +23,20 @@ class AddPost extends React.Component<PropsType, DescriptionState>{
         this.setState({ description: e.currentTarget.value });
     };
 
-    onSend = (): void => {      
-        this.props.createPost(this.state.description, null);
+    onAddPhoto = (e: any) => {
+        e.preventDefault()
+        this.setState({ photo: e.currentTarget.value });
+    }
+
+    onSend = (): void => {     
+        // let please = {                    
+        // storage: "cache",
+        // metadata: {            
+        //     mime_type: "image/jpeg",
+        //     filename: "test.jpg"
+                
+        // }         
+        this.props.createPost(this.state.description, this.state.photo);
         this.setState({
             description: ""
         });
@@ -30,7 +45,8 @@ class AddPost extends React.Component<PropsType, DescriptionState>{
     render() {
         return (
             <div>
-                <div>
+                <div className={styles.container}>
+                    <input type={"file"} onChange={this.onAddPhoto}/>
                     <textarea value={this.state.description} 
                               onChange={this.onInputChange}
                               placeholder="Enter description"></textarea>

@@ -11,3 +11,15 @@
   width: 300px;
  height: 200px;
 }
+
+.container{
+  display: grid;  
+
+}
+.change {
+  display: inline-block;
+}
+
+.name{
+  float:left;  
+}

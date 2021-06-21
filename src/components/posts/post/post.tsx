@@ -4,18 +4,19 @@ import { NavLink } from 'react-router-dom';
 import postPhoto from '../../../assets/post.png'
 import styles from './post.module.css'
 import { like, unlike, deletePost } from '../../../redux/posts-reducer'
+import { PostPhotoType } from '../../../redux/types/types';
 
 type PropsType = {
-    like: any,
-    unlike: any,
-    deletePost: any,
+    like: (id: number) => void
+    unlike: (id: number) => void
+    deletePost: (id: number) => void
     post: any,
-    isDeleting: boolean
+    isDeleting?: boolean
 }
 
 type StateType = {
     isLiked: boolean,
-    likesCount: number,    
+    likesCount: number,
 }
 
 class Post extends React.Component<PropsType, StateType>{
@@ -35,10 +36,18 @@ class Post extends React.Component<PropsType, StateType>{
         return (
             <div className={styles.post}>
                 <div>
-                    <div>
+                    {/* <div>
                         <NavLink to={`/posts/${this.props.post.id}/comments`}>
                             <img src={this.props.post.photos[1] != null ? this.props.post.photos[1].url : postPhoto}
                                 alt="post.png" className={styles.userPhoto} />
+                        </NavLink>
+                    </div> */}
+                    <div>
+                        <NavLink to={`/posts/${this.props.post.id}/comments`}>
+                            {this.props.post.photos.length ? this.props.post.photos.map((p: PostPhotoType) => (
+                                <img src={p.url} alt="post.png" className={styles.userPhoto} />
+                            )):
+                            <img src={postPhoto} alt="post.png" className={styles.userPhoto} />}
                         </NavLink>
                     </div>
                     <span>
@@ -61,12 +70,12 @@ class Post extends React.Component<PropsType, StateType>{
                             <div>Created: {this.props.post.created_at}</div>
                         </span>
                     </span>
-                </div>               
+                </div>
                 <div>
-                    {this.props.isDeleting && 
-                    <button onClick={this.onDelete}>
-                        Delete
-                    </button>}
+                    {this.props.isDeleting &&
+                        <button onClick={this.onDelete}>
+                            Delete
+                        </button>}
                 </div>
             </div>
         )

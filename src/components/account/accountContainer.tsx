@@ -1,56 +1,41 @@
 import { compose } from "@reduxjs/toolkit";
 import React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, withRouter} from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import withLayout from "../../hoc/withLayout";
 import { getUserProfile } from "../../redux/profiles-reducer";
+import { AppStateType } from "../../redux/store";
+import { AccountType } from "../../redux/types/types";
 import Account from "./account";
 
-
-type StateType = {
-    isAuth: boolean,
-}
-
 type PathParamsType = {
-    username: string,
-    location: any
+    username: string
 }
 
 type PropsType = RouteComponentProps<PathParamsType> & {
-    getUserProfile: any,
-    user: any,
-    auth: any
+    getUserProfile: (username: string) => void
+    user: AccountType
 }
 
-class AccountContainer extends React.Component<PropsType, StateType>{
-    state = {
-        isAuth: true
+class AccountContainer extends React.Component<PropsType>{
+
+    componentDidMount() {
+        this.props.getUserProfile(this.props.match.params.username);
     }
 
-    componentDidMount(){ 
-        if(this.props.location.pathname === '/account')
-            this.props.getUserProfile(this.props.auth.username);
-        else{
-            this.setState({ isAuth: false });        
-            this.props.getUserProfile(this.props.match.params.username);
-        }
-            
+    render() {
+        return <Account user={this.props.user} />
     }
-    
-    render(){
-        return <Account user={this.state.isAuth ? this.props.auth: this.props.user} />
-    }    
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
-        auth: state.auth.auth,
-        user: state.profiles.user,        
+        user: state.profiles.user,
     }
 }
 
 export default compose(
     withLayout,
-    connect(mapStateToProps, {getUserProfile}),
+    connect(mapStateToProps, { getUserProfile }),
     withRouter
 )(AccountContainer);

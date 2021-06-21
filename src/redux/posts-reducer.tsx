@@ -1,4 +1,7 @@
+import { ThunkAction } from "@reduxjs/toolkit";
 import { postAPI } from "../api/post-api";
+import { AppStateType } from "./store";
+import { CommentType, PostType } from "./types/types";
 
 const SET_POST = 'SET-POST';
 const SET_POSTS = 'SET-POSTS';
@@ -9,14 +12,16 @@ const UNLIKE = 'UNLIKE'
 
 
 const initialState = {
-    posts: [],
-    comments: [],
+    posts: [] as Array<PostType>,
+    comments: [] as Array<CommentType>,
     post: {
         photos: []
-    },
+    }
 }
 
-const postsReducer = (state = initialState, action: any) => {
+type initialStateType = typeof initialState;
+
+const postsReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
         case SET_POSTS: {
             return { ...state, posts: action.posts }
@@ -25,7 +30,7 @@ const postsReducer = (state = initialState, action: any) => {
             return { ...state, post: action.post }
         }
         case DELETE_POST: {
-            return { ...state, posts: state.posts.filter( (post: any) => post.id !== action.id) }
+            return { ...state, posts: state.posts.filter((post: PostType) => post.id !== action.id) }
         }
         case SET_COMMENTS: {
             return { ...state, comments: action.comments }
@@ -33,7 +38,7 @@ const postsReducer = (state = initialState, action: any) => {
         case LIKE:
             return {
                 ...state,
-                posts: state.posts.map((p: any) => {
+                posts: state.posts.map((p: PostType) => {
                     if (p.id === action.id) {
                         return { ...p, is_liked: true, likes_count: p.likes_count + 1 }
                     }
@@ -43,7 +48,7 @@ const postsReducer = (state = initialState, action: any) => {
         case UNLIKE:
             return {
                 ...state,
-                posts: state.posts.map((p: any) => {
+                posts: state.posts.map((p: PostType) => {
                     if (p.id === action.id) {
                         return { ...p, is_liked: false, likes_count: p.likes_count - 1 }
                     }
@@ -54,87 +59,138 @@ const postsReducer = (state = initialState, action: any) => {
             return state;
     }
 }
-export const setPost = (post: any) => ({ type: SET_POST, post })
-export const setPosts = (posts: any) => ({ type: SET_POSTS, posts })
-export const deletePostCreator = (id: string) => ({ type: DELETE_POST, id })
-export const setComments = (comments: any) => ({ type: SET_COMMENTS, comments })
-export const likeCreator = (id: string) => ({ type: LIKE, id })
-export const unlikeCreator = (id: string) => ({ type: UNLIKE, id })
 
+type ActionsTypes = setPostActionType | setPostsActionType | deletePostCreatorActionType |
+    setCommentsActionType | likeCreatorActionCreator | unlikeCreatorActionCreator
 
-export const getUserPosts = (username: string) => (dispatch: any) => {
-    postAPI.getUserPosts(username)
-        .then(res => {
-            // console.log(res);        
-            dispatch(setPosts(res))
-        })
+type setPostActionType = {
+    type: typeof SET_POST
+    post: PostType
+}
+export const setPost = (post: PostType): setPostActionType => ({ type: SET_POST, post })
+
+export type setPostsActionType = {
+    type: typeof SET_POSTS
+    posts: Array<PostType>
+}
+export const setPosts = (posts: Array<PostType>): setPostsActionType => ({ type: SET_POSTS, posts })
+
+type deletePostCreatorActionType = {
+    type: typeof DELETE_POST
+    id: number
+}
+export const deletePostCreator = (id: number): deletePostCreatorActionType => ({ type: DELETE_POST, id })
+
+type setCommentsActionType = {
+    type: typeof SET_COMMENTS
+    comments: Array<CommentType>
+}
+export const setComments = (comments: Array<CommentType>): setCommentsActionType =>
+    ({ type: SET_COMMENTS, comments })
+
+type likeCreatorActionCreator = {
+    type: typeof LIKE
+    id: number
+}
+export const likeCreator = (id: number): likeCreatorActionCreator => ({ type: LIKE, id })
+
+type unlikeCreatorActionCreator = {
+    type: typeof UNLIKE
+    id: number
+}
+export const unlikeCreator = (id: number): unlikeCreatorActionCreator => ({ type: UNLIKE, id })
+
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export const getUserPosts = (username: string): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.getUserPosts(username)
+            .then(res => {
+                // console.log(res);        
+                dispatch(setPosts(res))
+            })
+    }
 }
 
-export const createPost = (description: string, photo: any) => (dispatch: any) => {
-    postAPI.createPost(description, photo)
-        .then(res => {
-            postAPI.getUserPosts(res.data.author.username)
-                .then(res => {
-                    console.log(res);        
-                    dispatch(setPosts(res))
-                })
-        })
+export const createPost = (description: string, photo: any): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.createPost(description, photo)
+            .then(res => {
+                postAPI.getUserPosts(res.data.author.username)
+                    .then(res => {
+                        console.log(res);
+                        dispatch(setPosts(res))
+                    })
+            })
+    }
 }
 
-export const getPosts = () => (dispatch: any) => {
-    postAPI.getPosts()
-        .then(res => {
-            dispatch(setPosts(res))
-        })
+export const getPosts = (): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.getPosts()
+            .then(res => {
+                dispatch(setPosts(res))
+            })
+    }
 }
 
-export const getComments = (id: string) => (dispatch: any) => {
-    postAPI.getPost(id)
-        .then(res => {
-            dispatch(setPost(res))
-            postAPI.getComments(id)
-                .then(res => {
-                    ;
-                    dispatch(setComments(res))
-                })
-        })
+export const getComments = (id: number): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.getPost(id)
+            .then(res => {
+                dispatch(setPost(res))
+                postAPI.getComments(id)
+                    .then(res => {
+                        ;
+                        dispatch(setComments(res))
+                    })
+            })
+    }
 }
 
-export const addComment = (id: string, message: string) => (dispatch: any) => {
-    postAPI.addComment(id, message)
-        .then(res => {
-            postAPI.getComments(id)
-                .then(res => {
-                    ;
-                    dispatch(setComments(res))
-                })
-        })
+export const addComment = (id: number, message: string): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.addComment(id, message)
+            .then(res => {
+                postAPI.getComments(id)
+                    .then(res => {
+                        ;
+                        dispatch(setComments(res))
+                    })
+            })
+    }
 }
 
-export const deletePost = (id: string) => (dispatch: any) => {
-    postAPI.deletePost(id)
-        .then(res => {    
-            console.log(res);
-            dispatch(deletePostCreator(id));
-        })
+export const deletePost = (id: number): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.deletePost(id)
+            .then(res => {
+                console.log(res);
+                dispatch(deletePostCreator(id));
+            })
+    }
 }
 
-export const like = (id: string) => (dispatch: any) => {
-    postAPI.like(id)
-        .then(res => {
-            dispatch(likeCreator(id));
-            postAPI.getPost(id)
-                .then(res => {
-                    dispatch(setPost(res))
-                })
-        })
+export const like = (id: number): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.like(id)
+            .then(res => {
+                dispatch(likeCreator(id));
+                postAPI.getPost(id)
+                    .then(res => {
+                        dispatch(setPost(res))
+                    })
+            })
+    }
 }
 
-export const unlike = (id: string) => (dispatch: any) => {
-    postAPI.unlike(id)
-        .then(res => {
-            dispatch(unlikeCreator(id));
-        })
+export const unlike = (id: number): ThunkType => {
+    return async (dispatch) => {
+        await postAPI.unlike(id)
+            .then(res => {
+                dispatch(unlikeCreator(id));
+            })
+    }
 }
 
 export default postsReducer;

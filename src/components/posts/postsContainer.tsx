@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter} from "react-router";
 import { getPosts } from "../../redux/posts-reducer";
+import { AppStateType } from "../../redux/store";
+import { PostType } from "../../redux/types/types";
 import Posts from "./posts";
 
 
@@ -10,9 +12,9 @@ type PathParamsType = {
 }
 
 type PropsType = RouteComponentProps<PathParamsType> & {    
-    getPosts: any,
-    posts: any,
-    username: any
+    getPosts: () => void,
+    posts: Array<PostType>,
+    username: string
 }
 
 
@@ -27,7 +29,7 @@ class PostsContainer extends React.Component<PropsType>{
     }    
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         posts: state.posts.posts,
     }

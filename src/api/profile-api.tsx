@@ -7,6 +7,10 @@ export const profileAPI = {
     getUserProfile(username: string) {
         return instance.get(`profiles/${username}`).then(res => res.data);
     },
+    editProfile(account: any) {
+        return instance.patch(`account`, {account}).then(res => res.data);
+    },
+
 }
 
 export default profileAPI;

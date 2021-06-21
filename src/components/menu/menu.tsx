@@ -1,8 +1,13 @@
 import { connect } from 'react-redux';
 import { NavLink} from 'react-router-dom';
+import { AppStateType } from '../../redux/store';
 import styles from './menu.module.css'
 
-const Menu = (props: any) => {
+type PropsType = {
+    auth?: string
+}
+
+const Menu = (props: PropsType) => {
     return (
         <nav className={styles.nav}>
             <div className={styles.item}>
@@ -21,7 +26,7 @@ const Menu = (props: any) => {
     )
 
 }
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         auth: state.auth.auth.username
     }

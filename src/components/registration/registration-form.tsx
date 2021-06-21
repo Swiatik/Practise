@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { registrate } from '../../redux/auth-reducer';
 
 type TypeProps = {
-  registrate: any,
+  registrate: (username: string, login: string, password: string) => void,
   history: any
 }
 
