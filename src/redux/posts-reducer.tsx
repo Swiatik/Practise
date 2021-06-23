@@ -25,7 +25,7 @@ type initialStateType = typeof initialState;
 const postsReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
         case SET_POSTS: {
-            return { ...state, posts: action.posts.filter((post: PostType) => post.author.username !== "tony_starkk" && post.author.username !== "tony_stark") }
+            return { ...state, posts: action.posts.filter((post: PostType) => post.author.username !== "tony_starkk" && post.author.username !== "tony_stark" && post.author.username !== "qwerty") }
         }
         case SET_POST: {
             return { ...state, post: action.post }
