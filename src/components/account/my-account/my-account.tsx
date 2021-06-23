@@ -1,4 +1,4 @@
-import styles from '../account.module.css'
+import styles from './my-account.module.css'
 import userPhoto from '../../../assets/user.png'
 import React from 'react';
 import { connect } from 'react-redux';
@@ -122,10 +122,11 @@ class MyAccount extends React.Component<PropsType, StateType>{
     }
 
     render() {
-        return (
+        return (                        
             this.state.editMode ?
                 <div>
-                    <div className={styles.container}>
+                    <div className={styles.edit}>
+                        <div><h1>Edit profile</h1></div>
                         <div className={styles.change}>
                             <div className={styles.name}>Username: </div>
                             <input
@@ -158,16 +159,17 @@ class MyAccount extends React.Component<PropsType, StateType>{
                                 onChange={this.onLastNameChange} />
                         </div>
                     </div>
-                    <div>
+                    <div className={styles.edit_buttons}>
                         <button onClick={this.onBack}>Back</button>
                         <button onClick={this.onSave}>Save profile</button>
                     </div>
                 </div> :
-                <div>
+                <div className={styles.container}>
+                    <div className={styles.header} ><h1>My profile</h1></div>
                     <img src={this.props.user.profile_photo_url != null ?
                         this.props.user.profile_photo_url : userPhoto}
                         alt="user.png" className={styles.userPhoto} />
-                    <div>
+                    <div className={styles.info}>
                         <h3>Username: {this.props.user.username}</h3>
                         <h3>Email: {this.props.user.email}</h3>
                         <h3>Description: {this.props.user.description}</h3>
@@ -177,7 +179,7 @@ class MyAccount extends React.Component<PropsType, StateType>{
                         <h3>Job title: {this.props.user.job_title}</h3>
                         <h3>Last name: {this.props.user.last_name}</h3>
                     </div>
-                    <div>
+                    <div className={styles.buttons}>
                         <button>Add photo</button>
                         <button onClick={this.onEdit}>Edit profile</button>
                     </div>

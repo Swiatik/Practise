@@ -8,6 +8,7 @@ import {getComments} from '../../../redux/posts-reducer'
 import { compose } from "@reduxjs/toolkit";
 import { AppStateType } from "../../../redux/store";
 import { CommentType, PostType } from "../../../redux/types/types";
+import styles from './postInfo.module.css'
 
 type PostInfoPropsType = {
     post: PostType
@@ -18,7 +19,7 @@ type PostInfoPropsType = {
 
 const PostInfo = (props: PostInfoPropsType)=>{
 return (
-    <div>
+    <div className={styles.container}>
         <Post post={props.post} isDeleting={false}/>
         <Comments comments={props.comments} post_id={props.post.id} />
     </div>

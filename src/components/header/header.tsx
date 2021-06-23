@@ -15,7 +15,7 @@ const Header = (props: PropsType) => {
                 <h3>Log out</h3>
             </NavLink>
             <h3 className={styles.logout}>{props.username}</h3>
-            <h1>Site name</h1>
+            <h1>Practise site</h1>
     </span>
 }
 

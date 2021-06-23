@@ -1,5 +1,5 @@
 import React from 'react';
-import './registration-form.css';
+import styles from './registration-form.module.css';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registrate } from '../../redux/auth-reducer';
@@ -36,7 +36,8 @@ class RegistrationForm extends React.Component<TypeProps, RegistrateState>{
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <div  className={styles.container}>
+      <form onSubmit={this.onSubmit} >
         <div>
           <label>Enter username:</label><br />
           <input name="username"
@@ -67,6 +68,7 @@ class RegistrationForm extends React.Component<TypeProps, RegistrateState>{
           </NavLink>
         </div>
       </form>
+      </div>
     );
   }
 }

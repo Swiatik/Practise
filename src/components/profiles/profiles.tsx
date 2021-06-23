@@ -20,32 +20,30 @@ class Profiles extends React.Component<ProfilesProps>{
   }
   render() {
     return (
-      <div className={styles.app_wrapper}>
-        <div className={styles.app_wrapper_content}>
+      <div className={styles.ai}>
+
+        <div className={styles.content_container}>
           {this.props.profiles.map((p: ProfileType) => (
-            <div key={p.username}>
-              <span>
+            <div key={p.username} className={styles.profile}>
+              <div className={styles.photo}>
                 <div>
                   <NavLink to={'/profiles/' + p.username}>
                     <img src={p.profile_photo_url != null ? p.profile_photo_url : userPhoto}
                       alt="user.png" className={styles.userPhoto} />
                   </NavLink>
                 </div>
-              </span>
-              <span>
-                <span>
+              </div>
+              <div>
+                <div>
                   <div>{p.username}</div>
                   <div>{p.first_name} {p.last_name}</div>
-                  <div>Description: {p.description}</div>
                   <div>{p.followers} followers</div>
                   <div>{p.following} following</div>
-                  <div>Job: {p.job_title}</div>
-                </span>
-              </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
-
       </div>)
   }
 }

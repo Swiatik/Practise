@@ -5,6 +5,7 @@ import React from "react";
 import AddPost from './add-post'
 import { PostType } from "../../../redux/types/types";
 import { AppStateType } from "../../../redux/store";
+import styles from './add-post.module.css'
 
 type PropsType = {
     getUserPosts: (username: string) => void
@@ -19,7 +20,7 @@ class MyPosts extends React.Component<PropsType>{
 
     render() {
         return (
-            <div>
+            <div className={styles.page}>
                 <AddPost />
                 <Posts posts={this.props.posts} isDeleting={true} />
             </div>

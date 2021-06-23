@@ -1,0 +1,41 @@
+.userPhoto{
+    width: 300px;
+    height: 200px;
+    margin-left: 6em;
+}
+
+.container{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 37em; 
+}
+
+.edit{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15em; 
+}
+  
+  .info{
+    display: inline-flex;
+    width: 38em;
+    height: 15em;
+    flex-direction: column;
+    flex-wrap: wrap;    
+  }
+
+  .header{
+      margin-left: 11em;
+  }
+
+  .buttons{
+    margin-left: 8em;
+  }
+  
+  .edit_buttons{
+    margin-left: 23em;
+    margin-bottom: 5em;
+    margin-top: 1em;
+  }

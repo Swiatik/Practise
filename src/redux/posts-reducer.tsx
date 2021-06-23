@@ -1,4 +1,5 @@
 import { ThunkAction } from "@reduxjs/toolkit";
+import { convertTypeAcquisitionFromJson } from "typescript";
 import { postAPI } from "../api/post-api";
 import { AppStateType } from "./store";
 import { CommentType, PostType } from "./types/types";
@@ -24,7 +25,7 @@ type initialStateType = typeof initialState;
 const postsReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
         case SET_POSTS: {
-            return { ...state, posts: action.posts }
+            return { ...state, posts: action.posts.filter((post: PostType) => post.author.username !== "tony_starkk" && post.author.username !== "tony_stark") }
         }
         case SET_POST: {
             return { ...state, post: action.post }
@@ -33,7 +34,7 @@ const postsReducer = (state = initialState, action: any): initialStateType => {
             return { ...state, posts: state.posts.filter((post: PostType) => post.id !== action.id) }
         }
         case SET_COMMENTS: {
-            return { ...state, comments: action.comments }
+            return { ...state, comments: action.comments.filter((comment: CommentType) => comment.commenter.username !== "tony_starkk" && comment.commenter.username !== "tony_stark") }
         }
         case LIKE:
             return {
@@ -129,6 +130,7 @@ export const getPosts = (): ThunkType => {
     return async (dispatch) => {
         await postAPI.getPosts()
             .then(res => {
+                console.log(res);
                 dispatch(setPosts(res))
             })
     }

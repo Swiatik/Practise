@@ -12,4 +12,6 @@
 .app_wrapper_content {
     grid-area: c;
     background-color: cornflowerblue;    
+    display: inline-block;
+    height: auto;
 }

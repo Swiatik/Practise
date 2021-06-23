@@ -1,8 +1,45 @@
-.userPhoto {
-     width: 300px;
-    height: 200px;
+.postPhoto {
+    width: 450px;
+    height: 300px;
 }
 
+.userPhoto {
+    width: 40px;
+    height: 30px;
+}
+
+.username {
+    float: right;
+}
+
+.author {
+    text-align: left;
+    margin-bottom: 1%;
+}
 .post{
-    margin-block: 70px;
+    display: grid;
+    padding: 10px;    
+    margin-top: 2em;
+    text-align: center; 
+    background-color: yellowgreen;
+    border: 1px solid blue;
+}
+
+.info{
+    display: inline-grid;
+}
+
+.button{
+    margin-top: 0%;
+    width: 10;
+    height: 10;
+    size: 100;
+}
+
+.content_container{    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 54em;
+    height: 30em;
 }
