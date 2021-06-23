@@ -40,8 +40,8 @@ class Comments extends React.Component<PropsType, CommentState>{
                     <textarea value={this.state.message} 
                               onChange={this.onInputChange}
                               placeholder="Enter comment"></textarea>
-                    <button onClick={this.onSend}>Send</button>
                 </div>
+                    <div className={styles.send}><button onClick={this.onSend}>Send</button></div>
                 <div>
                     {this.props.comments.length && this.props.comments.map((c: CommentType) => (
                         <div key={c.id} className={styles.comment_container}>

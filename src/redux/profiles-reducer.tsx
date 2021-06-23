@@ -2,7 +2,7 @@ import profileAPI from "../api/profile-api";
 import postAPI from "../api/post-api";
 import { setPosts, setPostsActionType } from "./posts-reducer";
 import { setProfileData, setProfileDataActionType } from "./auth-reducer";
-import { ProfileType } from "./types/types";
+import { PostType, ProfileType } from "./types/types";
 import { ThunkAction } from "@reduxjs/toolkit";
 import { AppStateType } from "./store";
 
@@ -19,7 +19,7 @@ type initialStateType = typeof initialState;
 const profilesReducer = (state = initialState, action: ActionsTypes): initialStateType => {
     switch (action.type) {
         case SET_PROFILES: {
-            return { ...state, profiles: [...action.profiles] }
+            return { ...state, profiles: action.profiles.filter((profile: ProfileType) => profile.username !== "try100"  && profile.username !== "Vladoseek" && profile.username !== "usernameTest") }
         }
         case SET_USER_DATA: {
             return {

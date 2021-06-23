@@ -42,7 +42,7 @@ class Post extends React.Component<PropsType, StateType>{
                                 <img src={this.props.post.author && this.props.post.author.profile_photo_url ? this.props.post.author.profile_photo_url : userPhoto}
                                     alt="user.png" className={styles.userPhoto}/>
                             </NavLink>
-                            {this.props.post.author && this.props.post.author.username}
+                            <div className={styles.username}>{this.props.post.author && this.props.post.author.username}</div>
                         </div>                    
                     <div>
                         <NavLink to={`/posts/${this.props.post.id}/comments`}>                            
@@ -61,7 +61,7 @@ class Post extends React.Component<PropsType, StateType>{
                                 </button>}
                             </div>
 
-                            {this.props.post.likes_count} likes
+                            <div className={styles.likes_count}>{this.props.post.likes_count} likes</div>
 
                         </div>
                         <div>Created: {this.props.post.created_at}</div>

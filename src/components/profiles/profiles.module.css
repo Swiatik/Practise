@@ -13,7 +13,7 @@
 .content_container{    
     display: inline-flex;
     width: 55em;
-    height: 220em;
+    height: 170em;
     flex-direction: column;
     flex-wrap: wrap;    
 }

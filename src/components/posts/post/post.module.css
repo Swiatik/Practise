@@ -1,15 +1,19 @@
 .postPhoto {
     width: 450px;
     height: 300px;
+    margin-right: 7em;
 }
 
 .userPhoto {
     width: 40px;
     height: 30px;
+    float: left;
+
 }
 
 .username {
-    float: right;
+    float: left;
+    margin-top: 7px;
 }
 
 .author {
@@ -31,11 +35,21 @@
 
 .button{
     margin-top: 0%;
+    margin-left: 5em;
     width: 10;
     height: 10;
     size: 100;
 }
 
+.likes_count{
+    margin-right: 3em;
+    margin-top: 6px;
+}
+
+.likes{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .content_container{    
     display: block;
     margin-left: auto;
