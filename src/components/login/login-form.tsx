@@ -35,15 +35,16 @@ class LoginForm extends React.Component<LoginProps, LoginState>{
   render() {
     return (
       <div className={styles.container}>
+        <div className={styles.header}> <h1>Login</h1></div>
         <form onSubmit={this.onSubmit}>
-          <div>
+          <div className={styles.inputes}>
             <label>Enter login:</label><br />
             <input name="login"
               type="Text"
               value={this.state.login}
               onChange={this.onInputChange} />
           </div>
-          <div>
+          <div className={styles.inputes}>
             <label>Enter password:</label><br />
             <input name="password"
               type="Password"

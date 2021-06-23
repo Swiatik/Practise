@@ -14,8 +14,8 @@ const Header = (props: PropsType) => {
             <NavLink onClick={ () => deleteToken()} to='/login' className={styles.logout}>
                 <h3>Log out</h3>
             </NavLink>
-            <h3 className={styles.logout}>{props.username}</h3>
-            <h1>Practise site</h1>
+            <h3 className={styles.username}>{props.username}</h3>
+            <h1 className={styles.name}>Practise site</h1>
     </span>
 }
 

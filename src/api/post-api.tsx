@@ -2,9 +2,7 @@ import { instance } from "./api";
 let photoID = "uppy-ava/jpg-1e-image/jpeg-21388-1624290818738";
 export const postAPI = {
     createPost(description: string, photo: any) {
-        // return instance.post('posts', { description, photo });
-        debugger;
-        return instance.get('/s3/params', { params: { id: photoID } });
+        return instance.post('posts', { description, photos_attributes: null });        
     },
     getPosts() {
         return instance.get('posts').then(res => res.data);

@@ -17,7 +17,7 @@
   }
   
   input[type=submit] {
-    background-color: #4CAF50;
+    background-color: #1000CC;
     color: white;
     margin-top: 20px;
     padding: 12px 20px;
@@ -28,13 +28,26 @@
   }
   
   input[type=submit]:hover {
-    background-color: #45a049;
+    background-color: #1000CC;
   }
   
+  button{
+    background-color: #1000CC;
+
+  }
   .container{    
     display: block;
-    margin-left: 25em;
-    margin-top: 10em;
+    margin-left: 28em;
+    margin-top: 9em;
     width: 71em;  
 
+}
+
+.inputes{
+  width: 50em;
+}
+
+
+.header{
+  margin-left: 8em;
 }

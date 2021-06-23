@@ -1,13 +1,32 @@
 .header {
     grid-area: h;
-    background-color: green;
-    display: inline-block;    
+    background-color: #1000CC;
+    display: block;    
+    color: blanchedalmond;
+    
 }
+
 
 .header img {
     width: 20px;
 }
 
 .logout {    
-    float: right;    
+    float: right;  
+    margin-right: 1em;  
+    color: blanchedalmond;
+    opacity: 85%;
+    font-size: 13px;
+    margin-top: 6px;
+ }
+
+ .name{
+    margin-top: 12px;
+    margin-left: 1em;
+
+ }
+ .username{
+    float: right;  
+    margin-right: 1em;  
+    color: blanchedalmond;    
  }

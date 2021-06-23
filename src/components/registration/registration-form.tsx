@@ -36,28 +36,35 @@ class RegistrationForm extends React.Component<TypeProps, RegistrateState>{
 
   render() {
     return (
-      <div  className={styles.container}>
-      <form onSubmit={this.onSubmit} >
-        <div>
-          <label>Enter username:</label><br />
-          <input name="username"
-            type="Text"
-            value={this.state.username}
-            onChange={this.onInputChange} />
-        </div>
-        <div>
-          <label>Enter login:</label><br />
-          <input name="login"
-            type="Text"
-            value={this.state.login}
-            onChange={this.onInputChange} />
-        </div>
+      <div className={styles.container}>
+        <div className={styles.header}> <h1>Registration</h1></div>
+        <form onSubmit={this.onSubmit} >
+          <div>
+            <label>Enter username:</label><br />
+            <div className={styles.inputes}>
+              <input name="username"
+                type="Text"
+                value={this.state.username}
+                onChange={this.onInputChange} />
+            </div>
+          </div>
+          <div>
+            <label>Enter login:</label><br />
+            <div className={styles.inputes}>
+            <input name="login"
+              type="Text"
+              value={this.state.login}
+              onChange={this.onInputChange} />
+            </div>
+          </div>
         <div>
           <label>Enter password:</label><br />
-          <input name="password"
-            type="Password"
-            value={this.state.password}
-            onChange={this.onInputChange} />
+          <div className={styles.inputes}>
+            <input name="password"
+              type="Password"
+              value={this.state.password}
+              onChange={this.onInputChange} />
+          </div>
         </div>
         <div>
           <input type="submit" value="Registrate" />
@@ -67,8 +74,8 @@ class RegistrationForm extends React.Component<TypeProps, RegistrateState>{
             </button>
           </NavLink>
         </div>
-      </form>
-      </div>
+        </form>
+      </div >
     );
   }
 }

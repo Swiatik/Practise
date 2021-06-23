@@ -35,7 +35,8 @@ class Comments extends React.Component<PropsType, CommentState>{
     render() {
         return (
             <div>
-                <div>
+                <div className={styles.add_container}>
+                    <h1>Add comment</h1>
                     <textarea value={this.state.message} 
                               onChange={this.onInputChange}
                               placeholder="Enter comment"></textarea>
